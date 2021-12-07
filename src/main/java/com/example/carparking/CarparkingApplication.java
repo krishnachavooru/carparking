@@ -31,7 +31,6 @@ public class CarparkingApplication implements CommandLineRunner {
 		Scanner input = new Scanner(System.in);
 
 		int menu;
-
 		do {
 			System.out.println("WELCOME TO PARKING MANAGEMENT");
 			System.out.println("1: To Check Available Slots");
@@ -40,9 +39,16 @@ public class CarparkingApplication implements CommandLineRunner {
 			System.out.println("4: Show All Perked Vehicles");
 			System.out.println("0: To Exit");
 
-			System.out.print("Enter your choice as specified Numbers: ");
 
-			menu = input.nextInt();
+			do {
+				System.out.print("Enter your choice as specified Numbers: ");
+				while (!input.hasNextInt()) {
+					System.out.println("That's not a correct entry!");
+					input.next();
+				}
+				menu = input.nextInt();
+			} while (!(menu >= 0));
+
 			System.out.println();
 
 			switch (menu) {
@@ -94,14 +100,14 @@ public class CarparkingApplication implements CommandLineRunner {
 					int noOfHours;
 					int totalHours;
 					do {
-						System.out.println("Enter No. of extending hours (Max number of hours only 4): ");
+						int pendinghrs = 4-parkManager1.getNumberOfHours();
+						System.out.println("You have pending hours to book for:" +pendinghrs +" Enter Number of extending hours ");
+						System.out.println();
 						while (!sc.hasNextInt()) {
 							System.out.println("That's not a correct entry!");
 							sc.next();
 						}
 						noOfHours = sc.nextInt();
-						int pendinghrs = 4-parkManager1.getNumberOfHours();
-						System.out.println("You have pending hours to book for: "+pendinghrs);
 						totalHours = parkManager1.getNumberOfHours() + noOfHours;
 					} while (!(totalHours < 5));
 
@@ -125,13 +131,14 @@ public class CarparkingApplication implements CommandLineRunner {
 				case 0: {
 					System.out.println("\nThank you!\n");
 					break;
+
 				}
 				default: {
 					System.out.println("Invalid option!\n");
 					break;
 				}
 			}
-		} while (menu != 0);
+		} while (true);
 	}
 
 }
